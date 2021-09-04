@@ -10,22 +10,24 @@ func NewRouter() Router {
 }
 
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-
 	// validating http method requested
-	err := r.isMethodAllowed(rw, req)
+	hh, err := isPathExist(rw, req)
 	if err != nil {
 		return
 	}
 
-	// running middleware
-	for _, m := range srvMiddlewares {
-		err = m(rw, req)
-		if err != nil {
-			return
-		}
-	}
+	//// running middleware
+	//for i, m := range middlewares {
+	//	log.Println(i)
+	//	for _, f := range m.Middlewares {
+	//		err = f(rw, req)
+	//		if err != nil {
+	//			return
+	//		}
+	//	}
+	//}
 
-	r.Handler(rw, req)
+	hh.Handler(rw, req)
 }
 
 func (r *router) Run(address string) error {

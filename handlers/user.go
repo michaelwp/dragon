@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "home")
-}
-
 func Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, r.Body)
+}
+
+func List(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "user list")
 }
