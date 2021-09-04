@@ -26,8 +26,8 @@ func isPathExist(rw http.ResponseWriter, req *http.Request) (*handler, error) {
 
 func (r *router) isMethodAllowed(rw http.ResponseWriter, req *http.Request) (*handler, error) {
 	for _, hh := range r.Handler {
-		if isMatching(req.Method, *hh.Methods) {
-			return hh, nil
+		if isMatching(req.Method, hh.Methods) {
+			return &hh, nil
 		}
 	}
 

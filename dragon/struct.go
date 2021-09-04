@@ -5,12 +5,12 @@ import "net/http"
 type router struct {
 	RouterGroup string
 	Path        string
-	Handler     []*handler
+	Handler     []handler
 }
 
 type handler struct {
 	Handler     http.HandlerFunc
-	Methods     *string
+	Methods     string
 }
 
 type middleware struct {

@@ -8,9 +8,10 @@ import (
 
 func main() {
 	r := dragon.NewRouter()
+	r.GET("/api/v1/home", handlers.Home)
 
-	r.POST("/api/v1/users", handlers.Create)
 	r.GET("/api/v1/users", handlers.List)
+	r.POST("/api/v1/users", handlers.Create)
 
 	log.Fatal(r.Run(":8090"))
 }
