@@ -5,10 +5,14 @@ import (
 	"net/http"
 )
 
-func Create(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, r.Body)
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "create user")
 }
 
-func List(w http.ResponseWriter, r *http.Request) {
+func ListUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "user list")
+}
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "get user")
 }

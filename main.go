@@ -8,10 +8,23 @@ import (
 
 func main() {
 	r := dragon.NewRouter()
-	r.GET("/api/v1/home", handlers.Home)
+	api := r.Group("/api/v1")
 
-	r.GET("/api/v1/users", handlers.List)
-	r.POST("/api/v1/users", handlers.Create)
+	// user
+	user := api.Group("/users")
+	user.GET("", handlers.ListUser)
+	user.POST("", handlers.CreateUser)
+	user.GET("/1", handlers.GetUser)
+
+	// product
+	product := api.Group("/products")
+	product.GET("", handlers.ListProduct)
+	product.POST("", handlers.CreateProduct)
+	product.GET("/1", handlers.GetProduct)
+
+	// home
+	home := api.Group("/home")
+	home.GET("", handlers.Home)
 
 	log.Fatal(r.Run(":8090"))
 }
