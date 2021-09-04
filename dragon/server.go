@@ -9,6 +9,10 @@ func NewRouter() Router {
 	return &router{}
 }
 
+func logging(rw http.ResponseWriter, req *http.Request) {
+	log.Printf("%s - %s %s", req.RemoteAddr, req.Method, req.URL.Path)
+}
+
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// validating http method requested
 	hh, err := isPathExist(rw, req)
@@ -16,17 +20,16 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	//// running middleware
-	//for i, m := range middlewares {
-	//	log.Println(i)
-	//	for _, f := range m.Middlewares {
-	//		err = f(rw, req)
-	//		if err != nil {
-	//			return
-	//		}
-	//	}
-	//}
+	// checking middleware
+	err = middlewareChecking(rw, req)
+	if err != nil {
+		return
+	}
 
+	// simple request logging
+	logging(rw, req)
+
+	// update handler http response writer & request
 	hh.Handler(rw, req)
 }
 
