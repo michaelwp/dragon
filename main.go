@@ -3,15 +3,19 @@ package main
 import (
 	"github.com/michaelwp/dragon/dragon"
 	"github.com/michaelwp/dragon/handlers"
+	"github.com/michaelwp/dragon/middlewares"
 	"log"
 )
 
 func main() {
 	r := dragon.NewRouter()
+
+	// api
 	api := r.Group("/api/v1")
 
 	// user
 	user := api.Group("/users")
+	user.Use(middlewares.Authorize())
 	user.GET("", handlers.ListUser)
 	user.POST("", handlers.CreateUser)
 	user.GET("/1", handlers.GetUser)
