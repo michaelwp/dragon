@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/michaelwp/dragon"
+	"net/http"
 )
 
 type user struct {
@@ -10,33 +10,42 @@ type user struct {
 	UserName string `json:"user_name"`
 }
 
-func CreateUser(d *dragon.Dragon) {
+func CreateUser(d *dragon.Dragon) error {
 	var userBody user
+	var resp response
 
 	err := d.Body(&userBody)
 	if err != nil {
-		fmt.Fprint(d.ResponseWriter, err)
-		return
+		resp.Code = 0
+		resp.Message = err.Error()
+		resp.Data = nil
+
+		return d.ResponseJSON(http.StatusBadRequest, resp)
 	}
 
-	content := fmt.Sprintf(
-		"user_id: %v \nuser_name: %v",
-		userBody.UserId,
-		userBody.UserName,
-	)
+	resp.Code = 1
+	resp.Message = "Create User"
+	resp.Data = userBody
 
-	fmt.Fprint(d.ResponseWriter, content)
+	return d.ResponseJSON(http.StatusOK, resp)
 }
 
-func ListUser(d *dragon.Dragon) {
-	fmt.Fprint(d.ResponseWriter, d.Query.Get("gender"))
+func ListUser(d *dragon.Dragon) error {
+	var resp response
+
+	resp.Code = 1
+	resp.Message = "List Of User"
+	resp.Data = d.Query.Get("gender")
+
+	return d.ResponseJSON(http.StatusOK, resp)
 }
 
-func GetUser(d *dragon.Dragon) {
-	content := fmt.Sprintf(
-		"User ID: %s",
-		d.Params["id"],
-	)
+func GetUser(d *dragon.Dragon) error {
+	var resp response
 
-	fmt.Fprint(d.ResponseWriter, content)
+	resp.Code = 1
+	resp.Message = "Get Specific User"
+	resp.Data = d.Params["id"]
+
+	return d.ResponseJSON(http.StatusOK, resp)
 }

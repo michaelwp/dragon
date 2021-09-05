@@ -1,45 +1,60 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/michaelwp/dragon"
+	"net/http"
 )
 
-type product struct {
-	ProductId   uint   `json:"product_id"`
-	ProductType uint   `json:"product_type"`
-	ProductName string `json:"product_name"`
-}
+type (
+	product struct {
+		ProductId   uint   `json:"product_id"`
+		ProductType uint   `json:"product_type"`
+		ProductName string `json:"product_name"`
+	}
 
-func CreateProduct(d *dragon.Dragon) {
+	response struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+		Data    interface{}
+	}
+)
+
+func CreateProduct(d *dragon.Dragon) error {
 	var productBody product
+	var resp response
 
 	err := d.Body(&productBody)
 	if err != nil {
-		fmt.Fprint(d.ResponseWriter, err)
-		return
+		resp.Code = 0
+		resp.Message = err.Error()
+		resp.Data = nil
+
+		return d.ResponseJSON(http.StatusBadRequest, resp)
 	}
 
-	content := fmt.Sprintf(
-		"product_id: %v \nproduct_type: %v \nproduct_name: %v",
-		productBody.ProductId,
-		productBody.ProductType,
-		productBody.ProductName,
-	)
+	resp.Code = 1
+	resp.Message = "Create Product"
+	resp.Data = productBody
 
-	fmt.Fprint(d.ResponseWriter, content)
+	return d.ResponseJSON(http.StatusOK, resp)
 }
 
-func ListProduct(d *dragon.Dragon) {
-	fmt.Fprint(d.ResponseWriter, "product list")
+func ListProduct(d *dragon.Dragon) error {
+	var resp response
+
+	resp.Code = 1
+	resp.Message = "List Of Product"
+	resp.Data = d.Query
+
+	return d.ResponseJSON(http.StatusOK, resp)
 }
 
-func GetProduct(d *dragon.Dragon) {
-	content := fmt.Sprintf(
-		"Product Type: %s, name: %s",
-		d.Params["type"],
-		d.Params["name"],
-	)
+func GetProduct(d *dragon.Dragon) error {
+	var resp response
 
-	fmt.Fprint(d.ResponseWriter, content)
+	resp.Code = 1
+	resp.Message = "Get Specific Product"
+	resp.Data = d.Params
+
+	return d.ResponseJSON(http.StatusOK, resp)
 }

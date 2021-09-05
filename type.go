@@ -35,11 +35,12 @@ type (
 		Request        *http.Request
 		Context        context.Context
 		Params         map[string]string
-		Header         http.Header
+		RequestHeader  http.Header
+		ResponseHeader http.Header
 		Path           string
 		Query          url.Values
 		RemoteAddress  string
 	}
 
-	HandlerFunc func(d *Dragon)
+	HandlerFunc func(d *Dragon) error
 )
