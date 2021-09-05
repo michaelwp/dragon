@@ -1,6 +1,7 @@
 package dragon
 
 import (
+	"encoding/json"
 	"strings"
 )
 
@@ -69,3 +70,13 @@ func (r *router) mapParamsUrl() map[string]string {
 
 	return mParam
 }
+
+func (d *Dragon) Body(v interface{}) error {
+	err := json.NewDecoder(d.Request.Body).Decode(&v)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
