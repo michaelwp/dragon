@@ -27,7 +27,7 @@ type (
 
 	middleware struct {
 		RouterGroup string
-		Middlewares []func(rw http.ResponseWriter, req *http.Request) error
+		Middlewares []func(*Dragon) error
 	}
 
 	Dragon struct {
@@ -35,9 +35,8 @@ type (
 		Request        *http.Request
 		Context        context.Context
 		Params         map[string]string
-		Headers        http.Header
+		Header         http.Header
 		Path           string
-		//Body           io.ReadCloser
 		Query          url.Values
 		RemoteAddress  string
 	}
