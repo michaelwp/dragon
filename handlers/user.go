@@ -1,18 +1,27 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
-	"net/http"
+	"github.com/michaelwp/dragon/dragon"
 )
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "create user")
+type user struct {
+	Name string `json:"name"`
 }
 
-func ListUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "user list")
+func CreateUser(d *dragon.Dragon) {
+	var userBody user
+
+	json.NewDecoder(d.Body).Decode(&userBody)
+	fmt.Fprint(d.ResponseWriter, userBody)
 }
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "get user")
+func ListUser(d *dragon.Dragon) {
+	fmt.Fprint(d.ResponseWriter, d.Request.Form)
+}
+
+func GetUser(d *dragon.Dragon) {
+	content := fmt.Sprintf("User ID: %s", d.Params["id"])
+	fmt.Fprint(d.ResponseWriter, content)
 }

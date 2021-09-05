@@ -20,24 +20,7 @@ func isRouterRegistered(path string) (bool, *router) {
 	return false, nil
 }
 
-func registerRouter(method string, hh http.HandlerFunc, path string) {
-	// register new router
-	var r router
-	var h handler
-
-	h.Handler = hh
-	h.Methods = method
-
-	r.Path = path
-	r.Handler = append(r.Handler, h)
-
-	routers = append(routers, &r)
-
-	// setup http handle with routers as the handler
-	http.Handle(path, &r)
-}
-
-func updateRouter(method string, hh http.HandlerFunc, rr *router) {
+func updateRouter(method string, hh HandlerFunc, rr *router) {
 	var h handler
 
 	h.Handler = hh
@@ -46,22 +29,46 @@ func updateRouter(method string, hh http.HandlerFunc, rr *router) {
 	rr.Handler = append(rr.Handler, h)
 }
 
-func setupRouter(method string, hh http.HandlerFunc, path string) {
+func setupRouter(method string, hh HandlerFunc, path string) {
 	isTrue, rr := isRouterRegistered(path)
 	if isTrue {
+		// update specific router
 		updateRouter(method, hh, rr)
 		return
 	}
 
+	// register new router
 	registerRouter(method, hh, path)
+
+	// setup http handle with routers as the handler
+	http.Handle(path, &router{})
+}
+
+func registerRouter(method string, hh HandlerFunc, path string) {
+	var r router
+	var h handler
+
+	// form handler that will register to the router
+	h.Handler = hh
+	h.Methods = method
+
+	// register params if any
+	params := registerParams(path)
+
+	// register new router
+	r.Path = path
+	r.Handler = append(r.Handler, h)
+	r.Params = params
+
+	routers = append(routers, &r)
 }
 
 /* METHODS */
 
-func (r *router) GET(path string, hh http.HandlerFunc) {
+func (r *router) GET(path string, hh HandlerFunc) {
 	setupRouter(http.MethodGet, hh, r.RouterGroup+path)
 }
 
-func (r *router) POST(path string, hh http.HandlerFunc) {
+func (r *router) POST(path string, hh HandlerFunc) {
 	setupRouter(http.MethodPost, hh, r.RouterGroup+path)
 }

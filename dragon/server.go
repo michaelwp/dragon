@@ -9,13 +9,14 @@ func NewRouter() Router {
 	return &router{}
 }
 
-func logging(rw http.ResponseWriter, req *http.Request) {
+func logging(req *http.Request) {
 	log.Printf("%s - %s %s", req.RemoteAddr, req.Method, req.URL.Path)
 }
 
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+
 	// validating http method requested
-	hh, err := isPathExist(rw, req)
+	hh, rr, err := isPathExist(rw, req)
 	if err != nil {
 		return
 	}
@@ -27,15 +28,30 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	// simple request logging
-	logging(rw, req)
+	logging(req)
+
+	// mapping params
+	mParams := rr.mapParams()
+
+	// setup dragon handler
+	d := &Dragon{
+		ResponseWriter: rw,
+		Request:        req,
+		Context:        req.Context(),
+		Params:         mParams,
+		Headers:        req.Header,
+		Path:           req.URL.Path,
+		Body:           req.Body,
+		RemoteAddress:  req.RemoteAddr,
+	}
 
 	// update handler http response writer & request
-	hh.Handler(rw, req)
+	hh.Handler(d)
 }
 
 func (r *router) Run(address string) error {
 	log.Printf("Server listen and serve on %s", address)
-	err := http.ListenAndServe(address, nil)
+	err := http.ListenAndServe(address, r)
 	if err != nil {
 		return err
 	}
