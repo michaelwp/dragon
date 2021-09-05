@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/michaelwp/dragon/dragon"
-	"github.com/michaelwp/dragon/handlers"
-	"github.com/michaelwp/dragon/middlewares"
+	"github.com/michaelwp/dragon"
+	"github.com/michaelwp/dragon/sample/handlers"
 	"log"
 )
 
@@ -19,7 +18,7 @@ func main() {
 
 	// user
 	user := api.Group("/users")
-	user.Use(middlewares.Authorize())
+	user.Use(Authorize())
 	user.GET("", handlers.ListUser)
 	user.POST("", handlers.CreateUser)
 	user.GET("/:id", handlers.GetUser)

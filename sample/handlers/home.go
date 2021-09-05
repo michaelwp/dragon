@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/michaelwp/dragon/dragon"
+	"github.com/michaelwp/dragon"
 )
 
 func Home(d *dragon.Dragon) {

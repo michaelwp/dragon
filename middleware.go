@@ -1,14 +1,13 @@
 package dragon
 
 import (
-	"net/http"
 	"strings"
 )
 
-var srvMiddlewares = make([]func(rw http.ResponseWriter, req *http.Request) error, 0)
+var srvMiddlewares = make([]func(*Dragon) error, 0)
 var middlewares = make([]middleware, 0)
 
-func (r *router) Use(m ...func(rw http.ResponseWriter, req *http.Request) error) {
+func (r *router) Use(m ...func(*Dragon) error) {
 	srvMiddlewares = append(srvMiddlewares, m...)
 	middlewares = append(middlewares, middleware{
 		RouterGroup: r.RouterGroup,
@@ -16,11 +15,11 @@ func (r *router) Use(m ...func(rw http.ResponseWriter, req *http.Request) error)
 	})
 }
 
-func middlewareChecking(rw http.ResponseWriter, req *http.Request) error {
+func middlewareChecking(d *Dragon) error {
 	for _, m := range middlewares {
 
 		// is router group registered with middleware
-		isContains := strings.Contains(req.URL.Path, m.RouterGroup)
+		isContains := strings.Contains(d.Path, m.RouterGroup)
 
 		// if false then skip process
 		if !isContains {
@@ -29,7 +28,7 @@ func middlewareChecking(rw http.ResponseWriter, req *http.Request) error {
 
 		// if true then run the middlewares
 		for _, f := range m.Middlewares {
-			err := f(rw, req)
+			err := f(d)
 			if err != nil {
 				return err
 			}

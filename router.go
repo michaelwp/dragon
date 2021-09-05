@@ -21,7 +21,7 @@ func (r *router) setupDragonParameter(rw http.ResponseWriter, req *http.Request)
 		Request:        req,
 		Context:        req.Context(),
 		Params:         r.mapParamsUrl(),
-		Headers:        req.Header,
+		Header:         req.Header,
 		Path:           req.URL.Path,
 		Query:          req.URL.Query(),
 		RemoteAddress:  req.RemoteAddr,
@@ -31,20 +31,20 @@ func (r *router) setupDragonParameter(rw http.ResponseWriter, req *http.Request)
 
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
-	// validating http method requested
+	// validating http request and return updated router
 	hh, rr, err := isPathExist(rw, req)
-	if err != nil {
-		return
-	}
-
-	// checking middleware
-	err = middlewareChecking(rw, req)
 	if err != nil {
 		return
 	}
 
 	// setup dragon parameter
 	dragon := rr.setupDragonParameter(rw, req)
+
+	// checking middleware
+	err = middlewareChecking(dragon)
+	if err != nil {
+		return
+	}
 
 	// update handler http response writer & request
 	hh.Handler(dragon)
