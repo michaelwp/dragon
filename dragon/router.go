@@ -53,7 +53,7 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 	h.Methods = method
 
 	// register params if any
-	params := registerParams(path)
+	params := registerParamsUrl(path)
 
 	// register new router
 	r.Path = path

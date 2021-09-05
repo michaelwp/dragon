@@ -31,7 +31,7 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	logging(req)
 
 	// mapping params
-	mParams := rr.mapParams()
+	mParams := rr.mapParamsUrl()
 
 	// setup dragon handler
 	d := &Dragon{
@@ -42,6 +42,7 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		Headers:        req.Header,
 		Path:           req.URL.Path,
 		Body:           req.Body,
+		Query:          req.URL.Query(),
 		RemoteAddress:  req.RemoteAddr,
 	}
 

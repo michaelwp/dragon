@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func registerParams(path string) []*param {
+func registerParamsUrl(path string) []*param {
 	var (
 		url    = strings.Split(path, "/")
 		params []*param
@@ -60,7 +60,7 @@ func (r *router) formParamsUrl(path string) string {
 	return r.Path
 }
 
-func (r *router) mapParams() map[string]string {
+func (r *router) mapParamsUrl() map[string]string {
 	var mParam = map[string]string{}
 
 	for _, p := range r.Params {
