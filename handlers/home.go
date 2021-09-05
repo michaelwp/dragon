@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"net/http"
+	"github.com/michaelwp/dragon/dragon"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "home")
+func Home(d *dragon.Dragon) {
+	fmt.Fprint(d.ResponseWriter, "home")
 }

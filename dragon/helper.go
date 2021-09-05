@@ -2,7 +2,7 @@ package dragon
 
 import "reflect"
 
-func isMatching(expect string, actual string) bool {
+func isMatching(expect interface{}, actual interface{}) bool {
 	return reflect.DeepEqual(expect, actual)
 }
 

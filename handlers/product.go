@@ -2,17 +2,18 @@ package handlers
 
 import (
 	"fmt"
-	"net/http"
+	"github.com/michaelwp/dragon/dragon"
 )
 
-func CreateProduct(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "create product")
+func CreateProduct(d *dragon.Dragon) {
+	fmt.Fprint(d.ResponseWriter, "create product")
 }
 
-func ListProduct(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "product list")
+func ListProduct(d *dragon.Dragon) {
+	fmt.Fprint(d.ResponseWriter, "product list")
 }
 
-func GetProduct(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "get product")
+func GetProduct(d *dragon.Dragon) {
+	content := fmt.Sprintf("Product Type: %s, name: %s", d.Params["type"], d.Params["name"])
+	fmt.Fprint(d.ResponseWriter, content)
 }
