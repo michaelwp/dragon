@@ -18,7 +18,7 @@ func CreateUser(d *dragon.Dragon) {
 }
 
 func ListUser(d *dragon.Dragon) {
-	fmt.Fprint(d.ResponseWriter, d.Request.Form)
+	fmt.Fprint(d.ResponseWriter, d.Query.Get("gender"))
 }
 
 func GetUser(d *dragon.Dragon) {
