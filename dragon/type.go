@@ -4,6 +4,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"net/url"
 )
 
 type (
@@ -38,7 +39,7 @@ type (
 		Headers        http.Header
 		Path           string
 		Body           io.ReadCloser
-		Queries        map[string]string
+		Query          url.Values
 		RemoteAddress  string
 	}
 
