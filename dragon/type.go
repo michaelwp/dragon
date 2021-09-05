@@ -2,7 +2,6 @@ package dragon
 
 import (
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -38,7 +37,7 @@ type (
 		Params         map[string]string
 		Headers        http.Header
 		Path           string
-		Body           io.ReadCloser
+		//Body           io.ReadCloser
 		Query          url.Values
 		RemoteAddress  string
 	}
