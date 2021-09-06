@@ -11,16 +11,12 @@ Mini framework for Go
 
 ## Install
 
----
-
 Run this command to install.
 ```bash
 go get github.com/michaelwp/dragon
 ```
 
 ## Examples
-
----
 
 ```go
 package main
@@ -49,8 +45,6 @@ func main() {
 ```
 
 ## License
-
----
 
 BSD licensed. See the LICENSE file for details.
 
