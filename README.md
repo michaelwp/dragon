@@ -1,6 +1,6 @@
 # Dragon
 
-Mini framework for Go
+Golang router package
 
 ---
 
