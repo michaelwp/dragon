@@ -13,9 +13,9 @@ type (
 	}
 
 	response struct {
-		Code    int    `json:"code"`
-		Message string `json:"message"`
-		Data    interface{}
+		Code    int         `json:"code" xml:"code"`
+		Message string      `json:"message" xml:"message"`
+		Data    interface{} `json:"data" xml:"data"`
 	}
 )
 
