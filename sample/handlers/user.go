@@ -20,14 +20,14 @@ func CreateUser(d *dragon.Dragon) error {
 		resp.Message = err.Error()
 		resp.Data = nil
 
-		return d.ResponseJSON(http.StatusBadRequest, resp)
+		return d.ResponseXML(http.StatusBadRequest, resp)
 	}
 
 	resp.Code = 1
 	resp.Message = "Create User"
 	resp.Data = userBody
 
-	return d.ResponseJSON(http.StatusOK, resp)
+	return d.ResponseXML(http.StatusOK, resp)
 }
 
 func ListUser(d *dragon.Dragon) error {
@@ -37,7 +37,7 @@ func ListUser(d *dragon.Dragon) error {
 	resp.Message = "List Of User"
 	resp.Data = d.Query.Get("gender")
 
-	return d.ResponseJSON(http.StatusOK, resp)
+	return d.ResponseXML(http.StatusOK, resp)
 }
 
 func GetUser(d *dragon.Dragon) error {
@@ -47,5 +47,5 @@ func GetUser(d *dragon.Dragon) error {
 	resp.Message = "Get Specific User"
 	resp.Data = d.Params["id"]
 
-	return d.ResponseJSON(http.StatusOK, resp)
+	return d.ResponseXML(http.StatusOK, resp)
 }
