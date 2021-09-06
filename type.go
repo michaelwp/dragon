@@ -27,7 +27,7 @@ type (
 
 	middleware struct {
 		RouterGroup string
-		Middlewares []func(*Dragon) error
+		Middlewares []HandlerFunc
 	}
 
 	Dragon struct {
