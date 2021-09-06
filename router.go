@@ -39,16 +39,19 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	// setup dragon parameter
-	dragon := rr.setupDragonParameter(rw, req)
+	d := rr.setupDragonParameter(rw, req)
 
 	// checking middleware
-	err = middlewareChecking(dragon)
+	err = middlewareChecking(d)
 	if err != nil {
 		return
 	}
 
 	// update handler http response writer & request
-	hh.Handler(dragon)
+	err = hh.Handler(d)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// simple request logging
 	logging(req)

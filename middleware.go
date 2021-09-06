@@ -4,10 +4,10 @@ import (
 	"strings"
 )
 
-var srvMiddlewares = make([]func(*Dragon) error, 0)
+var srvMiddlewares = make([]HandlerFunc, 0)
 var middlewares = make([]middleware, 0)
 
-func (r *router) Use(m ...func(*Dragon) error) {
+func (r *router) Use(m ...HandlerFunc) {
 	srvMiddlewares = append(srvMiddlewares, m...)
 	middlewares = append(middlewares, middleware{
 		RouterGroup: r.RouterGroup,
@@ -35,5 +35,9 @@ func middlewareChecking(d *Dragon) error {
 		}
 	}
 
+	return nil
+}
+
+func (d *Dragon) Next() error {
 	return nil
 }

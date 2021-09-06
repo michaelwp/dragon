@@ -5,5 +5,5 @@ type Router interface {
 	POST(address string, handlerFunc HandlerFunc)
 	Run(address string) error
 	Group(address string) router
-	Use(middleware ...func(*Dragon) error)
+	Use(middleware ...HandlerFunc)
 }

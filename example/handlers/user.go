@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/michaelwp/dragon"
 	"net/http"
 )
@@ -34,18 +35,24 @@ func ListUser(d *dragon.Dragon) error {
 	var resp response
 
 	resp.Code = 1
-	resp.Message = "List Of User"
-	resp.Data = d.Query.Get("gender")
+	resp.Message = fmt.Sprintf("List Of %v User", d.Query.Get("gender"))
+	resp.Data = map[string]interface{}{
+		"token":   d.GetContext("token"),
+		"user_id": d.GetContext("userID"),
+	}
 
-	return d.ResponseXML(http.StatusOK, resp)
+	return d.ResponseJSON(http.StatusOK, resp)
 }
 
 func GetUser(d *dragon.Dragon) error {
 	var resp response
 
 	resp.Code = 1
-	resp.Message = "Get Specific User"
-	resp.Data = d.Params["id"]
+	resp.Message = fmt.Sprintf("Get User %v", d.Params["id"])
+	resp.Data = map[string]interface{}{
+		"token":   d.GetContext("token"),
+		"user_id": d.GetContext("userID"),
+	}
 
-	return d.ResponseXML(http.StatusOK, resp)
+	return d.ResponseJSON(http.StatusOK, resp)
 }
