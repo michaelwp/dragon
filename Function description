@@ -1,0 +1,17 @@
+A function is a mapping of zero or more input parameters to zero or more output parameters.
+Functions in golang are defined using the func keyword.
+
+The syntax to define a function in go
+func add (a int, b int) int {
+    return a + b
+}
+How to call a function in your code: 
+package main
+
+import "fmt"
+
+func main() {
+    sum := add(3, 5)
+
+    fmt.Println(sum)        // prints 8
+}
