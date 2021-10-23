@@ -1,23 +1,50 @@
-# Dragon
+<h1 align="center">
+  <a target="_blank">
+    <img src="https://github.com/JayantGoel001/JayantGoel001/blob/master/GIF/Earth.gif" width="24px" style="max-width:100%;">
+  </a>
+  𝐇𝐞𝐥𝐥𝐨, &lt;𝚌𝚘𝚍𝚎𝚛𝚜/&gt;!
+  <a target="_blank">
+    <img src="https://github.com/JayantGoel001/JayantGoel001/blob/master/GIF/Hi.gif" width="40px" />
+  </a>
+</h1>
 
-Golang router package
+# Dragon 🐉
+<div align="center">
 
----
+&nbsp; ![Open Source Love](https://img.shields.io/badge/Open%20Source-%F0%9F%92%9B-cyan.svg?style=flat) &nbsp; ![](https://visitor-badge.glitch.me/badge?page_id=michaelwp.dragon&style=flat-square&color=0088cc) &nbsp; <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+	
+</div>
+<img height="100" alt="Thanks for visiting me" width="100%" src="https://raw.githubusercontent.com/BrunnerLivio/brunnerlivio/master/images/marquee.svg" />
 
-* [Install](#install)
-* [Examples](#examples)
+<br>
 
----
+<a target="_blank">
+  <img align="right" height="250" width="400" alt="GIF" src="https://github.com/JayantGoel001/JayantGoel001/blob/master/GIF/image.gif">
+</a>
+
+## Golang router package 🍁
+
+* &nbsp; ⚙️ [Install](#install)
+* &nbsp; 🚀 [Examples](#examples)
+
+</br>
+
 
 ## Install
 
-Run this command to install.
+&nbsp; 👾 Run this command to install.
+<h3>
+	
 ```bash
 go get github.com/michaelwp/dragon
 ```
+	
+<h3>
 
 ## Examples
 
+<h3>
+	
 ```go
 package main
 
@@ -43,8 +70,20 @@ func main() {
 	log.Fatal(r.Run(":8090"))
 }
 ```
+<h3>
 
 ## License
 
-BSD licensed. See the LICENSE file for details.
+&nbsp; ⚡ BSD licensed. See the LICENSE file for details.
 
+---
+	
+<div align="center">
+
+### Show some ❤️ by starring the repository!
+
+</div>
+	
+#
+
+![footer](https://github.com/JayantGoel001/JayantGoel001/blob/master/PNG/footer.png)	
