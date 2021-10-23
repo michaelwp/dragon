@@ -124,6 +124,15 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 	routers = append(routers, &r)
 }
 
+// ServeHTTPFile serving http file with specific pattern.
+// 	example :
+// 		r := dragon.NewRouter()
+//		r.ServeHTTPFile("/", "./static")
+func (r router) ServeHTTPFile(pattern string, HTTPFile string) {
+	handler := http.FileServer(http.Dir(HTTPFile))
+	http.Handle(pattern, handler)
+}
+
 /* METHODS */
 
 func (r *router) GET(path string, hh HandlerFunc) {
