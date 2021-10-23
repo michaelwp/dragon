@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/michaelwp/dragon"
 	"github.com/michaelwp/dragon/example/handlers"
-	"log"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 	product.GET("", handlers.ListProduct)
 	product.POST("", handlers.CreateProduct)
 	product.GET("/:type/:name", handlers.GetProduct)
+	product.PATCH("", handlers.UpdateProductName)
 
 	log.Fatal(r.Run(":8090"))
 }
