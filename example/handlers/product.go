@@ -1,14 +1,20 @@
 package handlers
 
 import (
-	"github.com/michaelwp/dragon"
 	"net/http"
+
+	"github.com/michaelwp/dragon"
 )
 
 type (
 	product struct {
 		ProductId   uint   `json:"product_id"`
 		ProductType uint   `json:"product_type"`
+		ProductName string `json:"product_name"`
+	}
+
+	UdateProductNameParameter struct {
+		ProductId   uint   `json:"product_id"`
 		ProductName string `json:"product_name"`
 	}
 
@@ -19,42 +25,48 @@ type (
 	}
 )
 
+func (r response) NewResponse(code int, message string, data interface{}) response {
+	r.Code = code
+	r.Message = message
+	r.Data = data
+	return r
+}
+
+func (r response) NewErrorResponse(message string) response {
+	r.Code = 0
+	r.Message = message
+	r.Data = nil
+	return r
+}
+
 func CreateProduct(d *dragon.Dragon) error {
 	var productBody product
 	var resp response
 
 	err := d.Body(&productBody)
 	if err != nil {
-		resp.Code = 0
-		resp.Message = err.Error()
-		resp.Data = nil
-
-		return d.ResponseJSON(http.StatusBadRequest, resp)
+		return d.ResponseJSON(http.StatusBadRequest, resp.NewErrorResponse(err.Error()))
 	}
-
-	resp.Code = 1
-	resp.Message = "Create Product"
-	resp.Data = productBody
-
-	return d.ResponseJSON(http.StatusOK, resp)
+	return d.ResponseJSON(http.StatusOK, resp.NewResponse(1, "Create Product", productBody))
 }
 
 func ListProduct(d *dragon.Dragon) error {
 	var resp response
-
-	resp.Code = 1
-	resp.Message = "List Of Product"
-	resp.Data = d.Query
-
-	return d.ResponseJSON(http.StatusOK, resp)
+	return d.ResponseJSON(http.StatusOK, resp.NewResponse(1, "List Of Product", d.Query))
 }
 
 func GetProduct(d *dragon.Dragon) error {
 	var resp response
+	return d.ResponseJSON(http.StatusOK, resp.NewResponse(1, "Get Specific Product", d.Params))
+}
 
-	resp.Code = 1
-	resp.Message = "Get Specific Product"
-	resp.Data = d.Params
+func UpdateProductName(d *dragon.Dragon) error {
+	var req UdateProductNameParameter
+	var resp response
 
-	return d.ResponseJSON(http.StatusOK, resp)
+	if err := d.Body(&req); err != nil {
+		return d.ResponseJSON(http.StatusBadRequest, resp.NewErrorResponse(err.Error()))
+	}
+
+	return d.ResponseJSON(http.StatusOK, resp.NewResponse(1, "success update name", req))
 }
