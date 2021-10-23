@@ -133,3 +133,15 @@ func (r *router) GET(path string, hh HandlerFunc) {
 func (r *router) POST(path string, hh HandlerFunc) {
 	setupRouter(http.MethodPost, hh, r.RouterGroup+path)
 }
+
+func (r *router) PUT(path string, hh HandlerFunc) {
+	setupRouter(http.MethodPut, hh, r.RouterGroup+path)
+}
+
+func (r *router) PATCH(path string, hh HandlerFunc) {
+	setupRouter(http.MethodPatch, hh, r.RouterGroup+path)
+}
+
+func (r *router) DELETE(path string, hh HandlerFunc) {
+	setupRouter(http.MethodDelete, hh, r.RouterGroup+path)
+}
