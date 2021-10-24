@@ -1,10 +1,10 @@
-# Dragon 🐉
+# Dragon 🐉 
 
-&nbsp; ![Open Source Love](https://img.shields.io/badge/Open%20Source-%F0%9F%92%9B-cyan.svg?style=flat) &nbsp; ![](https://visitor-badge.glitch.me/badge?page_id=michaelwp.dragon&style=flat-square&color=0088cc) &nbsp; <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+![Open Source Love](https://img.shields.io/badge/Open%20Source-%F0%9F%92%9B-cyan.svg?style=flat) &nbsp; ![](https://visitor-badge.glitch.me/badge?page_id=michaelwp.dragon&style=flat-square&color=0088cc) &nbsp; <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+
+Dragon is a simple golang router package.
 
 ---
-
-## Golang router package 🍁
 
 * ⚙️ [Install](#install)
 * 🚀 [Examples](#examples)
@@ -51,11 +51,7 @@ func main() {
 &nbsp; ⚡ BSD licensed. See the LICENSE file for details.
 
 ---
-	
-<center>
 
 ### Show some ❤️ by starring the repository!
-
-</center>
 
 ![footer](https://github.com/JayantGoel001/JayantGoel001/blob/master/PNG/footer.png)	
