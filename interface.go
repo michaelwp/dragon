@@ -6,5 +6,5 @@ type Router interface {
 	Run(address string) error
 	Group(address string) router
 	Use(middleware ...HandlerFunc)
-	ServeHTTPFile(pattern string, HTTPFile string)
+	ServeHTTPFile(systemFile string)
 }
