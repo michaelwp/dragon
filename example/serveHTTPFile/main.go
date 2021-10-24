@@ -9,7 +9,7 @@ func main() {
 	r := dragon.NewRouter()
 
 	// serving static http file
-	r.ServeHTTPFile("./static")
+	r.ServeHTMLFile("./static")
 
 	log.Fatal(r.Run(":8090"))
 }
