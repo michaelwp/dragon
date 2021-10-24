@@ -57,9 +57,18 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	logging(req)
 }
 
+// Run http server, example : log.Fatal(r.Run(":8090"))
 func (r *router) Run(address string) error {
+	var fileSystem http.Handler
+
+	// setup static html file if exist
+	if r.FileSystem != nil {
+		fileSystem = http.FileServer(http.Dir(*r.FileSystem))
+	}
+
+	// start http server
 	log.Printf("Server listen and serve on %s", address)
-	err := http.ListenAndServe(address, r)
+	err := http.ListenAndServe(address, fileSystem)
 	if err != nil {
 		return err
 	}
@@ -127,13 +136,12 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 // ServeHTTPFile serving http file with specific pattern.
 // 	example :
 // 		r := dragon.NewRouter()
-//		r.ServeHTTPFile("/", "./static")
-func (r router) ServeHTTPFile(pattern string, HTTPFile string) {
-	handler := http.FileServer(http.Dir(HTTPFile))
-	http.Handle(pattern, handler)
+//		r.ServeHTTPFile("./static")
+func (r *router) ServeHTTPFile(systemFile string) {
+	r.FileSystem = &systemFile
 }
 
-/* METHODS */
+/* HTTP METHODS */
 
 func (r *router) GET(path string, hh HandlerFunc) {
 	setupRouter(http.MethodGet, hh, r.RouterGroup+path)

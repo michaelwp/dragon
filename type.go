@@ -12,6 +12,7 @@ type (
 		Path        string
 		Handler     []handler
 		Params      []*param
+		FileSystem  *string
 	}
 
 	param struct {
