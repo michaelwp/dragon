@@ -1,6 +1,7 @@
 package dragon
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -59,16 +60,10 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 // Run http server, example : log.Fatal(r.Run(":8090"))
 func (r *router) Run(address string) error {
-	var fileSystem http.Handler
-
-	// setup static html file if exist
-	if r.FileSystem != nil {
-		fileSystem = http.FileServer(http.Dir(*r.FileSystem))
-	}
 
 	// start http server
 	log.Printf("Server listen and serve on %s", address)
-	err := http.ListenAndServe(address, fileSystem)
+	err := http.ListenAndServe(address, r)
 	if err != nil {
 		return err
 	}
@@ -110,7 +105,6 @@ func setupRouter(method string, hh HandlerFunc, path string) {
 	// register new router
 	registerRouter(method, hh, path)
 
-	// setup http handle with routers as the handler
 	http.Handle(path, &router{})
 }
 
@@ -133,12 +127,19 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 	routers = append(routers, &r)
 }
 
-// ServeHTTPFile serving http file with specific pattern.
+// ServeHTMLFile will reading and serving index.html file in specific folder as requested in argument
 // 	example :
 // 		r := dragon.NewRouter()
 //		r.ServeHTTPFile("./static")
-func (r *router) ServeHTTPFile(systemFile string) {
-	r.FileSystem = &systemFile
+func (r *router) ServeHTMLFile(HTMLDir string) {
+	body, err := ioutil.ReadFile(HTMLDir + "/index.html")
+	if err != nil {
+		log.Fatalf("unable to read file: %v", err)
+	}
+
+	r.GET("/", func(d *Dragon) error {
+		return d.ResponseHTML(200, string(body))
+	})
 }
 
 /* HTTP METHODS */
