@@ -39,6 +39,28 @@ func (d *Dragon) ResponseHTML(statusCode int, v interface{}) error {
 	return nil
 }
 
+func (d *Dragon) ResponseJavaScript(statusCode int, v interface{}) error {
+	d.ResponseHeader.Set("Content-Type", "application/javascript")
+	d.ResponseStatus(statusCode)
+	_, err := fmt.Fprintf(d.ResponseWriter, v.(string))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *Dragon) ResponseText(statusCode int, v interface{}) error {
+	d.ResponseHeader.Set("Content-Type", "text/plain")
+	d.ResponseStatus(statusCode)
+	_, err := fmt.Fprintf(d.ResponseWriter, v.(string))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (d *Dragon) ResponseStatus(statusCode int) {
 	d.ResponseWriter.WriteHeader(statusCode)
 }

@@ -4,6 +4,13 @@ import (
 	"strings"
 )
 
+type (
+	middleware struct {
+		RouterGroup string
+		Middlewares []HandlerFunc
+	}
+)
+
 var srvMiddlewares = make([]HandlerFunc, 0)
 var middlewares = make([]middleware, 0)
 

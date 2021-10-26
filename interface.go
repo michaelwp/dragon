@@ -9,5 +9,4 @@ type Router interface {
 	Run(address string) error
 	Group(address string) router
 	Use(middleware ...HandlerFunc)
-	ServeHTMLFile(HTMLDir string)
 }
