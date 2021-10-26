@@ -10,6 +10,7 @@ const (
 	MethodNotAllowed = "method not allowed"
 )
 
+// isPathExist validating if path and params is registered.
 func isPathExist(rw http.ResponseWriter, req *http.Request) (*handler, *router, error) {
 	for _, rr := range routers {
 		var reqPath = req.URL.Path
@@ -27,9 +28,9 @@ func isPathExist(rw http.ResponseWriter, req *http.Request) (*handler, *router, 
 		}
 	}
 
-	// return error not found as default response
-	rw.WriteHeader(http.StatusNotFound)
-	rw.Write([]byte(PageNotFound))
+	// setup static file
+	s.setupStaticFile(rw, req)
+
 	return nil, nil, errors.New(PageNotFound)
 }
 

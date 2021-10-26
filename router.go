@@ -1,9 +1,39 @@
 package dragon
 
 import (
-	"io/ioutil"
+	"context"
 	"log"
+	"net"
 	"net/http"
+	"net/url"
+)
+
+type (
+	router struct {
+		RouterGroup string
+		Path        string
+		Handler     []handler
+		Params      []*param
+	}
+
+	handler struct {
+		Handler HandlerFunc
+		Methods string
+	}
+
+	Dragon struct {
+		ResponseWriter http.ResponseWriter
+		Request        *http.Request
+		Context        context.Context
+		Params         map[string]string
+		RequestHeader  http.Header
+		ResponseHeader http.Header
+		Path           string
+		Query          url.Values
+		RemoteAddress  string
+	}
+
+	HandlerFunc func(d *Dragon) error
 )
 
 var routers = make([]*router, 0)
@@ -30,6 +60,7 @@ func (r *router) setupDragonParameter(rw http.ResponseWriter, req *http.Request)
 	}
 
 }
+
 
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
@@ -63,12 +94,19 @@ func (r *router) Run(address string) error {
 
 	// start http server
 	log.Printf("Server listen and serve on %s", address)
-	err := http.ListenAndServe(address, r)
+
+	server := http.Server{
+		Addr:    address,
+		Handler: r,
+	}
+
+	listen, err := net.Listen("tcp", address)
 	if err != nil {
 		return err
 	}
 
-	return nil
+	return server.Serve(listen)
+
 }
 
 func (r router) Group(path string) router {
@@ -104,8 +142,6 @@ func setupRouter(method string, hh HandlerFunc, path string) {
 
 	// register new router
 	registerRouter(method, hh, path)
-
-	http.Handle(path, &router{})
 }
 
 func registerRouter(method string, hh HandlerFunc, path string) {
@@ -125,21 +161,6 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 	r.Params = params
 
 	routers = append(routers, &r)
-}
-
-// ServeHTMLFile will reading and serving index.html file in specific folder as requested in argument
-// 	example :
-// 		r := dragon.NewRouter()
-//		r.ServeHTTPFile("./static")
-func (r *router) ServeHTMLFile(HTMLDir string) {
-	body, err := ioutil.ReadFile(HTMLDir + "/index.html")
-	if err != nil {
-		log.Fatalf("unable to read file: %v", err)
-	}
-
-	r.GET("/", func(d *Dragon) error {
-		return d.ResponseHTML(200, string(body))
-	})
 }
 
 /* HTTP METHODS */

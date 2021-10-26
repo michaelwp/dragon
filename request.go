@@ -5,6 +5,14 @@ import (
 	"strings"
 )
 
+type (
+	param struct {
+		Key      string
+		Position int
+		Value    string
+	}
+)
+
 func registerParamsUrl(path string) []*param {
 	var (
 		url    = strings.Split(path, "/")
