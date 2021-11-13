@@ -5,6 +5,14 @@ import (
 	"strings"
 )
 
+type (
+	param struct {
+		Key      string
+		Position int
+		Value    string
+	}
+)
+
 func registerParamsUrl(path string) []*param {
 	var (
 		url    = strings.Split(path, "/")
@@ -71,6 +79,7 @@ func (r *router) mapParamsUrl() map[string]string {
 	return mParam
 }
 
+// Body mapping body request
 func (d *Dragon) Body(v interface{}) error {
 	err := json.NewDecoder(d.Request.Body).Decode(&v)
 	if err != nil {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/michaelwp/dragon"
-	"github.com/michaelwp/dragon/example/handlers"
+	"github.com/michaelwp/dragon/example/basic/handlers"
 	"log"
 )
 

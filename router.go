@@ -1,8 +1,39 @@
 package dragon
 
 import (
+	"context"
 	"log"
+	"net"
 	"net/http"
+	"net/url"
+)
+
+type (
+	router struct {
+		RouterGroup string
+		Path        string
+		Handler     []handler
+		Params      []*param
+	}
+
+	handler struct {
+		Handler HandlerFunc
+		Methods string
+	}
+
+	Dragon struct {
+		ResponseWriter http.ResponseWriter
+		Request        *http.Request
+		Context        context.Context
+		Params         map[string]string
+		RequestHeader  http.Header
+		ResponseHeader http.Header
+		Path           string
+		Query          url.Values
+		RemoteAddress  string
+	}
+
+	HandlerFunc func(d *Dragon) error
 )
 
 var routers = make([]*router, 0)
@@ -29,6 +60,7 @@ func (r *router) setupDragonParameter(rw http.ResponseWriter, req *http.Request)
 	}
 
 }
+
 
 func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
@@ -57,14 +89,24 @@ func (r *router) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	logging(req)
 }
 
+// Run http server, example : log.Fatal(r.Run(":8090"))
 func (r *router) Run(address string) error {
+
+	// start http server
 	log.Printf("Server listen and serve on %s", address)
-	err := http.ListenAndServe(address, r)
+
+	server := http.Server{
+		Addr:    address,
+		Handler: r,
+	}
+
+	listen, err := net.Listen("tcp", address)
 	if err != nil {
 		return err
 	}
 
-	return nil
+	return server.Serve(listen)
+
 }
 
 func (r router) Group(path string) router {
@@ -100,9 +142,6 @@ func setupRouter(method string, hh HandlerFunc, path string) {
 
 	// register new router
 	registerRouter(method, hh, path)
-
-	// setup http handle with routers as the handler
-	http.Handle(path, &router{})
 }
 
 func registerRouter(method string, hh HandlerFunc, path string) {
@@ -124,7 +163,7 @@ func registerRouter(method string, hh HandlerFunc, path string) {
 	routers = append(routers, &r)
 }
 
-/* METHODS */
+/* HTTP METHODS */
 
 func (r *router) GET(path string, hh HandlerFunc) {
 	setupRouter(http.MethodGet, hh, r.RouterGroup+path)
